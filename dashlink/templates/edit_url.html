@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- CSS -->
+    <!-- BOOTSTRAP CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+
+    <link 
+      rel="shortcut icon" 
+      href="{{ url_for('static', filename='img/favicon.ico') }}" 
+      type="image/x-icon"
+    >
+
+    <title>DashLink - {{ title }}</title>
+  </head>
+  
+  <body>
+
+    <!-- NAVBAR -->
+
+    <header
+      class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow fixed-top"
+      id="navbar"
+    >
+      <a href="{{ url_for('home') }}" class="navbar brand"
+        ><span class="title">Dash<span class="title-2">Link</span></span></a
+      >
+      <button
+        id="sidebar_btn"
+        class="navbar-toggler position-absolute d-md-none collapsed bgc-green black"
+        style="margin-top: 0.75rem;"
+        type="button"
+        onclick="openSidebar()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-nav logout_btn">
+        <div class="nav-item text-nowrap">
+          <a class="nav-link px-3" href="{{ url_for('logout') }}">Log out</a>
+        </div>
+      </div>
+
+      
+    </header>
+
+<!-- SIDEBAR -->
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav
+          id="sidebar"
+          class="side-nav"
+        >
+        <ul>
+          <li class="sidenav-item">
+            <a href="{{ url_for('home') }}">
+              Home
+            </a> 
+          </li>
+          <li class="sidenav-item">
+            <a href="{{ url_for('dashboard') }}">
+              Dashboard
+            </a> 
+          </li>
+          <li class="sidenav-item">
+            <a href="/home/#contact">
+              Feedback
+            </a>  
+          </li>
+        </ul>
+          <div class="dropdown smooth user_info">
+            <a
+              href="#"
+              class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+              id="dropdownUser1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="{{ img_file }}"
+                alt=""
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              <strong class="black">{{ current_user.username }}</strong>
+            </a>
+            <small class="black">{{ current_user.email }}</small>
+            <ul
+              class="dropdown-menu dropdown-menu-dark text-small black"
+              aria-labelledby="dropdownUser1"
+            >
+              <li><a class="dropdown-item" href="{{ url_for('edit_account') }}">Edit profile</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('logout') }}"
+                  >Log out</a
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        
+<div class="container col-xl-10 col-xxl-8 px-4 py-5 my-5 text-center">
+  <div class="alert-bg" id="alert">
+    <div class="alert-box shadow">
+        <h5 class="red">Delete link</h5>
+        <small class="lead">Are you sure you wanna do this?</small>
+        <div class="choice">
+            <button type="button" class="btn btn-primary btn-sm m-1 my_btn bgc-green" onclick="abort()">No</button>
+            <form action="{{ url_for('delete_url', url_id=url.id) }}" method="POST">
+                <input type="submit" class="btn btn-sm m-1 danger_btn2" value="Yes">
+            </form>
+        </div>
+    </div>
+</div>
+  
+  <h1 class="display-6">Edit Dashed Links</h1>
+    <div class="col-md-10 mx-auto col-lg-5 my-5">
+      <form class="p-4 p-md-5" method="POST" id="form">
+        {{ form.hidden_tag() }}
+
+      <div class="form-floating mb-3">
+        {% if form.title.errors %}
+          {% for error in form.title.errors %}
+          {{ form.title(class="form-control is-invalid bg-dark", id='floatingInput', placeholder='Enter title') }}
+          {{ form.title.label(for='floatingInput') }}
+          
+            <span class="invalid-feedback">{{ error }}</span>
+          {% endfor %}
+        {% else %}
+            {{ form.title(class='input form-control', id="floatingInput", placeholder="name@example.com") }}
+            {{ form.title.label(for='floatingInput') }}
+        {% endif %}
+      </div>
+
+
+        <div class="form-floating mb-3">
+          {% if form.long_url.errors %}
+             {% for error in form.long_url.errors %}
+             {{ form.long_url(class="form-control is-invalid bg-dark", id='floatingInput', placeholder='https://') }}
+             {{ form.long_url.label(for='floatingInput') }}
+
+               <span class="invalid-feedback">{{ error }}</span>
+             {% endfor %}
+          {% else %}
+          {{ form.long_url(class="input form-control bg-dark", id='floatingInput', placeholder='https://') }}
+          {{ form.long_url.label(for='floatingInput') }}
+          {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+          {% if form.short_url.errors %}
+             {% for error in form.short_url.errors %}
+             {{ form.short_url(class="form-control is-invalid bg-dark", id='floatingInput', placeholder='https://') }}
+             {{ form.short_url.label(for='floatingInput') }}
+
+               <span class="invalid-feedback">{{ error }}</span>
+             {% endfor %}
+          {% else %}
+          {{ form.short_url(class="input form-control bg-dark", id='floatingInput', placeholder='https://') }}
+          {{ form.short_url.label(for='floatingInput') }}
+          {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+          {% if form.desc.errors %}
+             {% for error in form.desc.errors %}
+             {{ form.desc(class="form-control is-invalid bg-dark", id='floatingInput', placeholder='https://', style='height: 20vh;') }}
+             {{ form.desc.label(for='floatingInput') }}
+
+               <span class="invalid-feedback">{{ error }}</span>
+             {% endfor %}
+          {% else %}
+          {{ form.desc(class="input form-control bg-dark", id='floatingInput', placeholder='link description', style='height: 20vh;!important') }}
+          {{ form.desc.label(for='floatingInput') }}
+          {% endif %}
+        </div>
+
+        {{ form.submit(class="w-100 btn btn-lg btn-primary bgc-green my_btn") }}
+        <button class="w-100 btn btn-lg btn-primary danger_btn2" type="button" onclick="deleteLink()" style="margin-top: 0.75rem;">Delete</button>
+      </form>
+      
+    </div>
+
+
+
+  </div>
+    </div>
+
+
+
+    <!-- BOOTSTRAP JAVASCRIPTS -->
+    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script>
+      const addNewUrl = () => {
+        location.href = "{{ url_for('new_url') }}";
+      }
+
+      // Alert box modal... My custom modal LOL
+      const alertBox = document.getElementById('alert');
+
+      const deleteLink = () => {
+        alertBox.style.display = 'flex';
+      }
+
+      const abort = () => {
+        alertBox.style.display = 'none';
+      }
+    </script>
+  </body>
+</html>

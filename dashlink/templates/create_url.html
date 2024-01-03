@@ -1,0 +1,57 @@
+{% extends "dashboard_layout.html" %} {% block body %}
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-5 my-5 text-center">
+  <h1 class="display-6">Let's Dash some links</h1>
+    <div class="col-md-10 mx-auto col-lg-5 my-5">
+      <form class="p-4 p-md-5" method="POST" id="form">
+        {{ form.hidden_tag() }}
+
+      <div class="form-floating mb-3">
+        {% if form.title.errors %}
+          {% for error in form.title.errors %}
+          {{ form.title(class="form-control is-invalid bg-dark", id='floatingInput', placeholder='Enter title') }}
+          {{ form.title.label(for='floatingInput') }}
+          
+            <span class="invalid-feedback">{{ error }}</span>
+          {% endfor %}
+        {% else %}
+            {{ form.title(class='input form-control', id="floatingInput", placeholder="name@example.com") }}
+            {{ form.title.label(for='floatingInput') }}
+        {% endif %}
+      </div>
+
+
+        <div class="form-floating mb-3">
+          {% if form.long_url.errors %}
+             {% for error in form.long_url.errors %}
+             {{ form.long_url(class="form-control is-invalid bg-dark", id='floatingInput', placeholder='https://') }}
+             {{ form.long_url.label(for='floatingInput') }}
+
+               <span class="invalid-feedback">{{ error }}</span>
+             {% endfor %}
+          {% else %}
+          {{ form.long_url(class="input form-control bg-dark", id='floatingInput', placeholder='https://') }}
+          {{ form.long_url.label(for='floatingInput') }}
+          {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+          {% if form.desc.errors %}
+             {% for error in form.desc.errors %}
+             {{ form.desc(class="form-control is-invalid bg-dark", id='floatingInput', placeholder='https://', style='height: 20vh;') }}
+             {{ form.desc.label(for='floatingInput') }}
+
+               <span class="invalid-feedback">{{ error }}</span>
+             {% endfor %}
+          {% else %}
+          {{ form.desc(class="input form-control bg-dark", id='floatingInput', placeholder='https://', style='height: 20vh;!important') }}
+          {{ form.desc.label(for='floatingInput') }}
+          {% endif %}
+        </div>
+
+        {{ form.submit(class="w-100 btn btn-lg btn-primary bgc-green my_btn") }}
+        
+      </form>
+    </div>
+
+{% endblock %}

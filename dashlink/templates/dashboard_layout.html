@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- CSS -->
+
+    <!-- BOOTSTRAP CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+
+    <link 
+      rel="shortcut icon" 
+      href="{{ url_for('static', filename='img/favicon.ico') }}" 
+      type="image/x-icon"
+    >
+
+    <title>DashLink - {{ title }}</title>
+  </head>
+  <body>
+
+  <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash_alert-{{category}}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- NAVBAR -->
+
+    <header
+      class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow fixed-top"
+      id="navbar"
+    >
+      <a href="{{ url_for('home') }}" class="navbar brand"
+        ><span class="title">Dash<span class="title-2">Link</span></span></a
+      >
+      <button
+        class="navbar-toggler position-absolute d-md-none collapsed bgc-green black"
+        id="sidebar_btn"
+        style="margin-top: 0.75rem;"
+        type="button"
+        onclick="openSidebar()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-nav logout_btn">
+        <div class="nav-item text-nowrap">
+          <a class="nav-link px-3" href="{{ url_for('logout') }}">Log out</a>
+        </div>
+      </div>
+    </header>
+
+<!-- SIDEBAR -->
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav
+          id="sidebar"
+          class="side-nav"
+        >
+          <ul>
+            <li class="sidenav-item">
+              <a href="{{ url_for('home') }}">
+                Home
+              </a> 
+            </li>
+            <li class="sidenav-item">
+              <a href="{{ url_for('dashboard') }}">
+                Dashboard
+              </a> 
+            </li>
+            <li class="sidenav-item">
+              <a href="/home/#contact">
+                Feedback
+              </a>  
+            </li>
+          </ul>
+          <div class="dropdown smooth user_info">
+            <a
+              href="#"
+              class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+              id="dropdownUser1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="{{ img_file }}"
+                alt=""
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              <strong class="black">{{ current_user.username }}</strong>
+            </a>
+            <small class="black">{{ current_user.email }}</small>
+            <ul
+              class="dropdown-menu dropdown-menu-dark text-small black"
+              aria-labelledby="dropdownUser1"
+            >
+              <li><a class="dropdown-item" href="{{ url_for('edit_account') }}">Account</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('logout') }}"
+                  >Log out</a
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+          {% block body %}{% endblock %}
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script>
+      // Alert box modal... My custom modal LOL
+      const alertBox = document.getElementById('alert');
+
+      const deleteLink = () => {
+        alertBox.style.display = 'flex';
+      }
+
+      const abort = () => {
+        alertBox.style.display = 'none';
+      }
+    </script>
+
+    <!-- BOOTSTRAP JAVASCRIPTS -->
+    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+
+  </body>
+</html>

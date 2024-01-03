@@ -1,0 +1,55 @@
+{% extends "dashboard_layout.html" %} {% block body %}
+
+<!-- MAIN CONTENT -->
+
+<main
+    class="col-md-9 ms-sm-auto col-lg-10 px-md-4 d-flex flex-column"
+    style="min-height: 100vh; padding-top: 4rem; overflow-y: scroll; margin-top: 1rem;"
+>
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+    >
+        <h1 class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a
+                class="btn btn-sm btn-outline-secondary my_btn2 white"
+                style="margin-left: 0.75rem"
+                href="{{ url_for('new_url') }}"
+            >
+                <span class="display-7">+</span> Add URL
+            </a>
+        </div>
+    </div>
+
+        {% if dashedURLs %}
+            <div class="url_list">  
+            
+                {% for url in dashedURLs %}
+                <div class="url_tile shadow">
+                
+                    <a href='/{{ url.short_url }}'>
+                        <div class="left">
+                            <strong class="title">{{ url.title }}</strong>
+                            <small class="green link">https://dl-wrrn.onrender.com/{{ url.short_url }}</small>
+                            {% if url.desc %}
+                                <p class="text-muted" style="margin-top: 1rem; margin-bottom: 0rem;">{{ url.desc }}</p>
+                            {% endif %}
+                        </div>
+                    </a>                     
+                        
+                        <div class="right">
+                            <a class="btn btn-primary btn-sm m-1 my_btn bgc-green" href="{{ url_for('edit_url', url_id=url.id) }}">Edit</a>
+                            <small class="text-muted date">{{ url.date_created.strftime('%Y-%m-%d') }}</small>   
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+
+        <div class="url_list text-center">
+            <strong class="text-muted">You have no dashed URL<br />Click on the "Add URL" button to add</strong>
+        </div>
+    {% endif %}
+</main>
+
+{% endblock %}

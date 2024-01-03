@@ -1,0 +1,109 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="container col-xxl-8 px-4 py-5" id="home">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="{{ url_for('static', filename='img/woman.png') }}" class="d-block mx-lg-auto img-fluid" alt="Image by pngtree.com" width="700" height="500" />
+      </div>
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold lh-1 mb-3">Welcome to <span class="green">DashLink</span></h1>
+        <p>A Fast and Reliable URL Shortener</p>
+        <p class="lead">Shorten, Share, and Simplify your links:<br><br><span class='green' style="font-weight: bold;">Are your URLs too long and hard to remember?</span><br> With DashLink, you can quickly and easily transform those lengthy web addresses into short, sleek, and easy-to-share links.<br>Say goodbye to clunky URLs and hello to simplicity</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 my_btn2" onclick='signup()'>Get started</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-4 pt-5 my-5 text-center" id="about">
+    <h1 class="display-4 fw-bold green">Why Choose DashLink?</h1>
+    <div class="col-lg-6 mx-auto">
+      <strong><span class='green'>1. </span> Lightening-Fast Shortening:</strong>
+      <p class="lead mb-4">Our cutting-edge technology ensures your URLs are shortened in the blink of an eye and saves time</p>
+
+      <strong><span class="green">2. </span> Custom Short Links:</strong>
+      <p class="lead mb-4">Personalize your short links to make them memorable and align with your brand. Stand out from the crowd with a unique touch</p>
+
+      <strong><span class="green">3. </span> Secure and Reliable:</strong>
+      <p class="lead mb-4">Rest assured that your links are safe with a reliable measures and infrastructures.</p>
+    </div>
+    <div class="overflow-hidden" style="height: max-content;">
+      <div class="container px-5">
+        <img src="{{ url_for('static', filename='img/boy.png') }}" class="img-fluid mb-4" alt="Image by pngtree.com" width="500" height="150" />
+      </div>
+    </div>
+  </div>
+
+  <div class="container col-xl-10 col-xxl-8 px-4 py-5" id="contact">
+    <div class="row align-items-center g-lg-5 py-5">
+      <div class="col-lg-7 text-center text-lg-start">
+        <h1 class="display-4 fw-bold lh-1 mb-3 green">Contact us</h1>
+        <p class="col-lg-10 fs-4">We love getting feedback from our users<br>How do you enjoy DashLink, Let us know now <br>Send a mail</p>
+      </div>
+      <div class="col-md-10 mx-auto col-lg-5">
+        <form class="p-4 p-md-5 bg-dark" method="POST" id="form" onsubmit="sendEmail()">
+          {{ form.hidden_tag() }}
+  
+        <div class="form-floating mb-3">
+            {% if form.name.errors %}
+            {% for error in form.name.errors %}
+                {{ form.name(class='input form-control is-invalid', id='floatingInput') }}
+                {{ form.name.label(for='floatingInput') }}
+            
+                <span class="invalid-feedback">{{ error }}</span>
+            {% endfor %}
+            {% else %}
+                {{ form.name(class='input input form-control', id='floatingInput', placeholder='name') }}
+                {{ form.name.label(for='floatingInput') }}
+            {% endif %}
+        </div>
+  
+        <div class="form-floating mb-3">
+          {% if form.email.errors %}
+            {% for error in form.email.errors %}
+              {{ form.email(class='input form-control is-invalid', id='floatingInput') }}
+              {{ form.email.label(for='floatingInput') }}
+            
+              <span class="invalid-feedback">{{ error }}</span>
+            {% endfor %}
+          {% else %}
+              {{ form.email(class='input form-control', id="floatingInput", placeholder="name@example.com") }}
+              {{ form.email.label(for='floatingInput') }}
+          {% endif %}
+        </div>
+  
+  
+        <div class="form-floating mb-3">
+          {% if form.feedback.errors %}
+            {% for error in form.feedback.errors %}
+              {{ form.feedback(class="form-control is-invalid bg-dark", id='floatingInput', placeholder='feedback', style='height: 20vh;') }}
+              {{ form.feedback.label(for='floatingInput') }}
+
+              <span class="invalid-feedback">{{ error }}</span>
+             {% endfor %}
+          {% else %}
+            {{ form.feedback(class="input form-control bg-dark", id='floatingInput', placeholder='feedback', style='height: 20vh;!important') }}
+            {{ form.feedback.label(for='floatingInput') }}
+          {% endif %}
+        </div> 
+          
+        {{ form.submit(class="w-100 btn btn-lg btn-primary bgc-green my_btn") }}
+          <hr class="my-4">
+          <small>You can also contact Developer @ <a href="https://sydneycd.netlify.app" class='green'>sydneycd.com</a>.</small>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const signup = () => {
+        location.href="{{ url_for('signup') }}"
+    }
+
+    const sendEmail = () => {
+      alert('Sorry this feature is still under Development\nTry again later. Thanks.')
+    }
+  </script>
+
+{% endblock %}
